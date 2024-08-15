@@ -1,0 +1,13 @@
+Source: dbp
+Section: misc
+Priority: optional
+Maintainer: Pyra Dev <pyra-dev@pyra-handheld.org>
+Build-Depends: debhelper (>= 9), dh-systemd, libarchive-dev, libdbus-1-dev, valac, libdpkg-dev, libimlib2-dev, libgtk-3-dev
+Standards-Version: 3.9.5
+Homepage: https://github.com/slaeshjag/dbp
+
+Package: dbp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, binfmt-support, libimlib2, libgtk-3-0
+Description: DragonBox Package system
+ dbp is an attempt at superseding the PND-system with something else that is nicer to use.

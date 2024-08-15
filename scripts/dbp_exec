@@ -1,0 +1,29 @@
+#!/bin/bash
+#dbp-template
+
+# The "dbp-template" line must not be altered nor be moved, it must be the second
+# line in the file for proper executable nuking when dbpd starts.
+
+
+# Wrapper script that simulates a binary of the desired program inside $PATH
+# For use with the dbp system
+
+# anything surrounded by an ! followed by % is replaced with
+# actual values by dbpd when the special folder is populated
+
+export DBP_IMAGE_DIR="`dbp-cfg image_mount_dir`/!%package_id!"
+
+# Only use this environment variable. The mechanism for determening the union mount
+# directory may change in the future
+export DBP_UNION_DIR="`dbp-cfg union_mount_dir`/!%package_id!"
+export DBP_EXEC="!%package_id!"
+
+if [ !%package_enviroment! == 1 ]; then
+	# This is where pre/post launch env setup should be done
+
+	# chdir is done by dbp-run, as the union mount might not exist before
+	# dbp-run is runned
+	dbp-run --gui-errors --log-output --chdir !%package_id! !%package_binary! "$@"
+else
+	dbp-run !%package_id! !%package_binary! "$@"
+fi

@@ -1,0 +1,258 @@
+dbp (0.6.12.1-2) unstable; urgency=medium
+
+  [ Steven Arnow ]
+  * Started on dbp validation
+  * Validate desktop entry
+  * Basic validation appears to work now
+  * dbp-validate-extraced has some basic functionality now
+  * lets call this a release
+  * Set version number to 0.6.12
+  * Check for unused icons
+  * install dbp-validate-extracted
+
+  [ aTc ]
+  * change distro to stretch
+  * fix copyright, add ldconfig trigger
+  * fix mime install path
+
+  [ Steven Arnow ]
+  * use setter for always show image
+
+  [ aTc ]
+  * remove debian/patches, upstream fixed install problems
+  * fix mime stuff
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Sun, 06 Oct 2019 21:01:01 +0200
+
+dbp (0.6.11-2) stretch; urgency=medium
+
+  [ aTc ]
+  * remove debian/dbp.install and dbp.service
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Sat, 07 Nov 2015 01:31:53 +0100
+
+dbp (0.6.11-1) jessie-pyra; urgency=medium
+
+  [ Steven Arnow ]
+  * Initial untested implementation of delayed package umounting
+  * Also run the delayed umount routine
+  * When umount of union fails, only mark as not reuable if it wasn't reusable before
+  * Make default delayed umount less spammy
+  * Added install target to makefile
+  * Also install systemd service
+  * Initialize purgatory
+  * Prevent infloop when unreapable
+  * Fix invalid memory access on delayed umount structure freeing
+  * Fix dbp-desktopd producing 'unsafe' launchers
+  * Escape media path in dbpd
+  * initial implementation of package arch check.should be moved into libdbpmgr
+  * If dependencies are missing, do what the user tells us
+  * Desktop parser should be more or less prepared for a merge feature
+  * Is merge this simple?
+  * Initial .desktop override support
+  * Fix segfaults in desktop code
+  * Fix string escaping in loop.c Fix use of uninitialized memory in config.c
+  * Changed desktop override filename to avoid collisions
+  * aufs does not take kindly to escaped paths
+  * I do not agree with the AuFS way of doing things
+  * Minor memleak fixes in dbpd comm.c
+  * More minor memory leaks in dbpd plugged
+  * Added a changelog, removed automatic version numbers
+  * Use manual version number
+  * Moved dbp-common into a shared library
+  * Changed struct and function namespace of libdbpbase to better fit that of a shared library
+  * Install headers for dbpbase, move dbp_error_log into dbpbase
+  * Started adding dependency checking in libdbpmgr
+  * Switched dependency checking to libdbpmgr in dbp-run
+  * fix dependency check
+  * Updated version number
+
+  [ aTc ]
+  * debian/patches/install.patch: fix broken makefile
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Fri, 06 Nov 2015 23:09:10 +0100
+
+dbp (0.6.6-1) jessie-pyra; urgency=medium
+
+  [ Steven Arnow ]
+  * Added vala dialog class to display missing dependencies
+  * Show the deps missing dialog if GUI errors are enabled. Selection is not checked yet
+  * Base interface up, introspection works
+  * Started working on dbpd interface library
+  * build libdbpmgr
+  * Fix warnings
+  * General dbus interface is functional again
+  * We won't be needing these anymore
+  * Fixed some stupid error reporting from dbpd
+  * Fixed config
+  * Implemented signals in dbus api Fixed bug in dbpd preventing inotify from working unless filenames are between 8 and 11 characters long
+  * Removed some old debug printf
+  * Started bringing the new dbus api to vala
+  * Added synchronous dbus signal handler
+  * Disabled desktopd for now, initial port of dbp-run to new API
+  * new desktopd, still completely untested
+  * Fixed errors in desktopd
+  * New code for extracting arch and version
+  * fix typo
+  * Started re-implementing dpkg functionality, not integrated yet
+  * Fix warnings
+  * Integrated dpkg replacement code in libdbpmgr
+  * This won't work
+  * Close warning dialog when a selection is made
+  * No need to link with dpkg
+
+  [ aTc ]
+  * hacks for libdbpmgr
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Sat, 24 Oct 2015 18:38:39 +0200
+
+dbp (0.6.5-2) jessie-pyra; urgency=medium
+
+  [ Steven Arnow ]
+  * Print out version info in some programs
+  * Moar version numbers
+  * Added some debug output
+  * Disabled the thumbnailer, it doesn't work anyway
+  * Updated swedish translation
+  * Probably fixed the some-packages-left-behind
+  * Not sure if the last commit could infloop on unkillable packages, but now it shouldn't
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Fri, 16 Oct 2015 20:45:44 +0200
+
+dbp (0.6.5-1) jessie-pyra; urgency=medium
+
+  [ Steven Arnow ]
+  * This might fix devices getting remounted on other mountpoints
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Sat, 15 Aug 2015 23:47:09 +0200
+
+dbp (0.6.4-1) jessie-pyra; urgency=medium
+
+  [ aTc ]
+  * systemd cleanup
+
+  [ Steven Arnow ]
+  * worked some more on supporting arch and version numbers in dpkg dependency checking
+  * Fixed some issues with debian dependencies, added support for handling different architectures
+
+  [ aTc ]
+  * minor cleanup control copyright
+
+  [ Steven Arnow ]
+  * drop support for debian wheezy
+
+  [ Steven Arnow ]
+  * reduce idle CPU usage
+
+  [ aTc ]
+  * dbp.install: install run_script
+
+  [ Steven Arnow ]
+  * Just syncing, untested commit
+
+  [ Steven Arnow ]
+  * Fixed a buffer overflow vuln, fixed packages without a default launcher
+  * Replaced sprintf with snprintf in dbpd
+  * Actually use the run script is configured
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Thu, 30 Jul 2015 14:32:30 +0200
+
+dbp (0.6.3-1) testing; urgency=medium
+
+  [ Steven Arnow ]
+  * Under some special cases, special file systems aren't ignored
+  * mend
+
+  [ aTc ]
+  * systemd cleanup
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Fri, 30 Jan 2015 23:51:22 +0100
+
+dbp (0.6.2-1) testing; urgency=medium
+
+  [ aTc ]
+  * debian/control : imlib2 dependency
+  * debian/control : gtk dependency
+  * debian/control: use gtk3
+  * debian/control: use gtk3
+
+  [ Steven Arnow ]
+  * Flush to terminal more often
+  * Started on thumbnailer
+  * I'm starting to think that this approach is a dead end...
+  * Attempt to fix vfat support
+
+  [ Pyra Dev ]
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Mon, 26 Jan 2015 23:45:39 +0100
+
+dbp (0.6.1-1) testing; urgency=medium
+
+  [ h4xxel ]
+  * dbp-run-vala to display gtk error dialogs
+
+  [ aTc ]
+  * p1
+  * p2
+
+  [ Steven Arnow ]
+  * binfmt is now handled by systemd service reduced some timeouts in dbpd. Results in quicker termination, although it wakes up more frequently
+  * Correctly handle escaped characters in /proc/mounts
+  * Move mountwatch.c to dbpd as only dbpd uses it
+  * If aufs fails, umount the image
+
+  [ h4xxel ]
+  * translation
+
+  [ Steven Arnow ]
+  * Started on thumbnailer
+  * Fixed some of the error reporting in dbp-run
+
+  [ Pyra Dev ]
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Sat, 24 Jan 2015 16:47:04 +0100
+
+dbp (0.6-1) testing; urgency=medium
+
+  [ Steven Arnow ]
+  * For whatever reason, dbpd is invisible on dbus when dbpd is a daemon...
+  * Fixed some minor mem leaks
+  * did some translations to swedish
+  * Removed obsolete description
+  * Added dbp-meta. Extracts keys from default.desktop in packages
+  * Locale generation fixes
+  * More work on gettext stuff
+  * minor gettext fix
+  * Validate file copy/removal over dbus for desktopd
+  * I feel dumb. This fixes daemonizing
+  * Create pidfile
+  * Started working on state recovery/clean shutdown
+  * Started on state loading
+  * state saving/loading seems to work
+  * When daemonizing, dbpd now waits for the child to connect to dbus before exiting
+  * Missed some stuff?
+  * Fixed init script
+  * Stop properly in init script
+  * Fix thumbnailer
+  * Add dbp-run-path desktop entry
+  * dbp-run-path shouldn't assume absolute path
+  * Updated conf a bit
+  * Fixed a couple bugs
+  * dbp-run-path desktop file did not have an Exec line
+  * dbp-cmd can now register/unregister packages with relative path
+
+  [ aTc ]
+  * docs
+
+  [ Steven Arnow ]
+  * Forgot to escape icon name in a place in dbp-thumbnail
+
+  [ Pyra Dev ]
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.com>  Wed, 17 Dec 2014 20:50:04 +0100
+
+dbp (0.5-2) testing; urgency=low
+
+  * Initial release
+
+ -- Pyra Dev <pyra-dev@pyra-handheld.org>  Thu, 20 Nov 2014 15:36:26 +0100
