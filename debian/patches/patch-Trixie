@@ -1,0 +1,561 @@
+Description: Update for GCC 14 and Trixie
+
+ .
+ dbp (0.6.12.1-2.1) unstable; urgency=medium
+ .
+   * Fix for GCC 14
+   * Update to Trixie
+Author: Ben Slater <catapultit@me.com>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout https://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: (upstream|backport|vendor|other), (<patch-url>|commit:<commit-id>)
+Bug: <upstream-bugtracker-url>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: (no|not-needed|<patch-forwarded-url>)
+Applied-Upstream: <version>, (<commit-url>|commit:<commid-id>)
+Reviewed-By: <name and email of someone who approved/reviewed the patch>
+Last-Update: 2024-08-15
+
+--- /dev/null
++++ dbp-0.6.12.1/LICENSE
+@@ -0,0 +1,17 @@
++Copyright (c) <2024> <Steven Arnow, aTc>
++
++This software is provided 'as-is', without any express or implied
++warranty. In no event will the authors be held liable for any damages
++arising from the use of this software.
++
++Permission is granted to anyone to use this software for any purpose,
++including commercial applications, and to alter it and redistribute it
++freely, subject to the following restrictions:
++
++1. The origin of this software must not be misrepresented; you must not
++   claim that you wrote the original software. If you use this software
++   in a product, an acknowledgment in the product documentation would be
++   appreciated but is not required.
++2. Altered source versions must be plainly marked as such, and must not be
++   misrepresented as being the original software.
++3. This notice may not be removed or altered from any source distribution.
+--- dbp-0.6.12.1.orig/Makefile
++++ dbp-0.6.12.1/Makefile
+@@ -94,8 +94,8 @@ install:
+ 	install -m 644 -t "$(DESTDIR)/usr/share/binfmts" "$(TOPDIR)/conf/binfmts/dbp.binfmt"
+ 	install -d "$(DESTDIR)/usr/share/applications"
+ 	install -m 644 -t "$(DESTDIR)/usr/share/applications" "$(TOPDIR)/conf/dbp-run-path.desktop"
+-#	install -d "$(DESTDIR)/usr/share/mime"
+-#	install -m 644 -t "$(DESTDIR)/usr/share/mime" "$(TOPDIR)/conf/mime/x-dbp.xml"
++	install -d "$(DESTDIR)/usr/share/mime"
++	install -m 644 -t "$(DESTDIR)/usr/share/mime" "$(TOPDIR)/conf/mime/x-dbp.xml"
+ 	install -d "$(DESTDIR)/usr/bin"
+ 	install -m 755 $(STRIP_FLAG) -t "$(DESTDIR)/usr/bin/" "$(TOPDIR)/build/bin/dbp-cfg" 
+ 	install -m 755 $(STRIP_FLAG) -t "$(DESTDIR)/usr/bin/" "$(TOPDIR)/build/bin/dbp-cmd" 
+--- dbp-0.6.12.1.orig/libdbpbase/config.h
++++ dbp-0.6.12.1/libdbpbase/config.h
+@@ -44,7 +44,7 @@ struct DBPConfig {
+ };
+ 
+ 
+-//int dbp_config_init();
++int dbp_config_init();
+ extern struct DBPConfig dbp_config_struct;
+ char *dbp_config_version_get();
+ void dbp_config_expand_token(char ***target, int *targets, char *token);
+--- /dev/null
++++ dbp-0.6.12.1/patches/series
+@@ -0,0 +1 @@
++trixie.patch
+--- /dev/null
++++ dbp-0.6.12.1/patches/trixie.patch
+@@ -0,0 +1,28 @@
++Fix GCC 14 compilation (Re-enable disabled int dbp_config_init() in config.h
++Fix debian/control for trixie (dh-sequence-systemd instead of dh-systemd)
++Index: dbp/debian/control
++===================================================================
++--- dbp.orig/debian/control
+++++ dbp/debian/control
++@@ -2,7 +2,7 @@ Source: dbp
++ Section: misc
++ Priority: optional
++ Maintainer: Pyra Dev <pyra-dev@pyra-handheld.org>
++-Build-Depends: debhelper (>= 9), dh-systemd, libarchive-dev, libdbus-1-dev, valac, libdpkg-dev, libimlib2-dev, libgtk-3-dev
+++Build-Depends: debhelper (>= 9), dh-sequence-systemd, libarchive-dev, libdbus-1-dev, valac, libdpkg-dev, libimlib2-dev, libgtk-3-dev
++ Standards-Version: 3.9.5
++ Homepage: https://github.com/slaeshjag/dbp
++ 
++Index: dbp/libdbpbase/config.h
++===================================================================
++--- dbp.orig/libdbpbase/config.h
+++++ dbp/libdbpbase/config.h
++@@ -44,7 +44,7 @@ struct DBPConfig {
++ };
++ 
++ 
++-//int dbp_config_init();
+++int dbp_config_init();
++ extern struct DBPConfig dbp_config_struct;
++ char *dbp_config_version_get();
++ void dbp_config_expand_token(char ***target, int *targets, char *token);
+--- /dev/null
++++ dbp-0.6.12.1/po/dbp-run.pot
+@@ -0,0 +1,456 @@
++# SOME DESCRIPTIVE TITLE.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the DragonBox-Package-system package.
++# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
++#
++#, fuzzy
++msgid ""
++msgstr ""
++"Project-Id-Version: DragonBox-Package-system \n"
++"Report-Msgid-Bugs-To: \n"
++"POT-Creation-Date: 2024-08-15 18:57+1000\n"
++"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
++"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
++"Language-Team: LANGUAGE <LL@li.org>\n"
++"Language: \n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=CHARSET\n"
++"Content-Transfer-Encoding: 8bit\n"
++
++#: dbp-cmd/dbp-cmd.c:21
++#, c-format
++msgid "\t\t\t  Returns a token that you use to unmount the package\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:23
++#, c-format
++msgid ""
++"\tgetmount\t- Returns the mountpoint for the media the package is on. Takes "
++"pkgid\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:26
++#, c-format
++msgid "\tid\t\t- Returns the pkgid for the package at <path>\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:28
++#, c-format
++msgid "\tlist\t\t- Lists all registered packages\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:20
++#, c-format
++msgid "\tmount\t- Mounts a package so that it can be executed. Takes pkgid.\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:27
++#, c-format
++msgid "\tpath\t\t- Returns the path for the package with id <pkgid>\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:29
++#, c-format
++msgid "\tping\t\t- Pings dbpd, exits with a failure if dbpd isn't running\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:24
++#, c-format
++msgid ""
++"\tregister\t- Register a package in the database. Takes path to package "
++"file\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:22
++#, c-format
++msgid ""
++"\tumount\t- Unmounts the package if no other instance is using it. Takes "
++"mount token\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:25
++#, c-format
++msgid ""
++"\tunregister\t- Unregisters a package in the database. Takes path to package "
++"file\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:32
++#, c-format
++msgid "A registered package have its executables and .desktop files exported\n"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:107
++msgid "Abort launch"
++msgstr ""
++
++#: dbp-run/common/error.vala:21 libdbpmgr/error.c:62
++msgid ""
++"An unhandled error has occured. This is just a placehoder that you shouldn't "
++"see."
++msgstr ""
++
++#: libdbpmgr/error.c:81
++msgid "An unknown error occured."
++msgstr ""
++
++#: dbp-run/common/error.vala:8 libdbpmgr/error.c:36
++msgid ""
++"An unknown internal error has occured. This is only supposed to be a "
++"placeholder. You should examine the DBP System daemon log-file for further "
++"information."
++msgstr ""
++
++#: dbp-run/common/run.vala:93
++msgid "Automatic installation of dependencies is currently not supported\n"
++msgstr ""
++
++#: dbp-cfg/main.c:12 dbp-meta/dbp-meta.c:9
++#, c-format
++msgid "By Steven Arnow, 2015, version %s\n"
++msgstr ""
++
++#: dbp-validate-extracted/validate.c:90
++#, c-format
++msgid "By Steven Arnow, 2015-2016, version %s\n"
++msgstr ""
++
++#: libdbpmgr/error.c:74
++msgid ""
++"Could not find one or more resource specified in the given parameter(s)."
++msgstr ""
++
++#: dbp-run/common/error.vala:52
++msgid "Error: "
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:47 dbp-cmd/dbp-cmd.c:61 dbp-cmd/dbp-cmd.c:75
++#: dbp-cmd/dbp-cmd.c:90 dbp-cmd/dbp-cmd.c:104 dbp-cmd/dbp-cmd.c:118
++#: dbp-cmd/dbp-cmd.c:133
++#, c-format
++msgid "Error: %s\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:45
++#, c-format
++msgid "Error: Could not determine current user\n"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:60
++#, c-format
++msgid "Error: Unknown option '%s'\n"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:46
++#, c-format
++msgid "Error: You need to specify the meta key to extract\n"
++msgstr ""
++
++#: dbp-run/dbp-run-path.vala:46 dbp-run/dbp-run.vala:52
++#, c-format
++msgid "Error: unknown option '%s'\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:18
++#, c-format
++msgid "Executes a dbpd system call, version %s\n"
++msgstr ""
++
++#: dbp-cfg/main.c:11
++#, c-format
++msgid "Extracts configuration keys out of the DBP config\n"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:8
++#, c-format
++msgid "Extracts meta keys from a DBP\n"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:101
++msgid "Install missing dependencies"
++msgstr ""
++
++#: libdbpmgr/error.c:80
++msgid ""
++"Instances of this program are still running after an unclean media removal, "
++"and it is not safe to spawn new instances. Close the old instances of this "
++"program before trying again."
++msgstr ""
++
++#: dbp-cfg/main.c:37
++#, c-format
++msgid "Key '%s' doesn't exist in config\n"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:104
++msgid "Launch anyway"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:19
++#, c-format
++msgid "List of valid commands:\n"
++msgstr ""
++
++#: dbp-run/common/run.vala:135 dbp-run/common/run.vala:142
++msgid "Make sure you have the file system permissions to create this directory"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:98
++msgid "Movable packages"
++msgstr ""
++
++#: dbp-run/common/error.vala:19 libdbpmgr/error.c:58
++msgid "No default.desktop was found in the meta-data for this package."
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:11
++#, c-format
++msgid ""
++"One or more dependencies for package '%s' is missing. The program may or may "
++"not work without these. Below is a list of missing dependencies."
++msgstr ""
++
++#: libdbpmgr/error.c:76
++msgid ""
++"One or more parameters contains malformed data that can not be processed."
++msgstr ""
++
++#: dbp-run/common/run.vala:70
++#, c-format
++msgid ""
++"Package '%s' is missing some of its dependencies\n"
++"\n"
++msgstr ""
++
++#: dbp-run/common/error.vala:52
++msgid "Package ID: "
++msgstr ""
++
++#: dbp-run/common/run.vala:52
++msgid "Package is for"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:49
++msgid "Package name"
++msgstr ""
++
++#: dbp-run/common/error.vala:52
++msgid "Path: "
++msgstr ""
++
++#: dbp-run/common/run.vala:72
++msgid "Removable packages: "
++msgstr ""
++
++#: dbp-run/dbp-run-path.vala:9
++#, c-format
++msgid "Runs a DBP file's default application\n"
++msgstr ""
++
++#: dbp-run/dbp-run.vala:12
++#, c-format
++msgid "Runs a registered DBP by its id\n"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:96
++msgid "System packages"
++msgstr ""
++
++#: dbp-run/common/run.vala:77
++msgid "System packages: "
++msgstr ""
++
++#: dbp-run/common/error.vala:7 libdbpmgr/error.c:34
++msgid "The DBP System Daemon is not responding. Make sure it's running"
++msgstr ""
++
++#: dbp-run/common/error.vala:11 libdbpmgr/error.c:42
++msgid ""
++"The DBP System Daemon was unable to assign the package file to a device "
++"node. ioctl failed."
++msgstr ""
++
++#: dbp-run/common/run.vala:81
++msgid ""
++"The application may or may not work at all without these. It is recommended "
++"that you use a package manager to install the missing dependencies."
++msgstr ""
++
++#: libdbpmgr/error.c:78
++msgid "The given file does not have a recognized file extension."
++msgstr ""
++
++#: dbp-run/common/error.vala:16
++msgid ""
++"The meta-data in this package is malformed: Illegal character(s) was found "
++"in a generated mountpoint."
++msgstr ""
++
++#: libdbpmgr/error.c:52
++msgid ""
++"The meta-data in this package is malformed: Illegal character(s) were found "
++"in a generated mountpoint."
++msgstr ""
++
++#: dbp-run/common/error.vala:12 libdbpmgr/error.c:44
++msgid "The package file could not be opened. Make sure it's still accessable."
++msgstr ""
++
++#: dbp-run/common/error.vala:20 libdbpmgr/error.c:60
++msgid ""
++"The package with this ID is already registered! This is not an error, and "
++"you shouldn't see this message."
++msgstr ""
++
++#: dbp-run/common/error.vala:26 libdbpmgr/error.c:72
++msgid "The program exited abnormally for an unknown reason."
++msgstr ""
++
++#: dbp-run/common/error.vala:25 libdbpmgr/error.c:70
++msgid ""
++"The program has crashed from a segmentation fault. This likely a bug in the "
++"program."
++msgstr ""
++
++#: dbp-run/common/error.vala:24 libdbpmgr/error.c:68
++msgid "The program was killed by a signal"
++msgstr ""
++
++#: dbp-run/common/error.vala:9 dbp-run/common/error.vala:10
++#: libdbpmgr/error.c:38 libdbpmgr/error.c:40
++msgid ""
++"The system has ran out of loopback device nodes. Try closing some "
++"applications and try again."
++msgstr ""
++
++#: dbp-run/common/run.vala:52
++msgid "This package is not supported on your system architecture"
++msgstr ""
++
++#: dbp-run/common/error.vala:23 libdbpmgr/error.c:66
++msgid ""
++"This package lacks a default executable, and therefore cannot be executed "
++"directly."
++msgstr ""
++
++#: dbp-run/common/error.vala:15 libdbpmgr/error.c:50
++msgid ""
++"Unable to access the package filesystem. This DBP-file is likely corrupt."
++msgstr ""
++
++#: dbp-run/common/error.vala:13 libdbpmgr/error.c:46
++msgid ""
++"Unable to allocate system resources. You're probably out of RAM. Close some "
++"programs and try again."
++msgstr ""
++
++#: dbp-run/common/run.vala:135 dbp-run/common/run.vala:142
++msgid "Unable to create appdata directory"
++msgstr ""
++
++#: dbp-run/common/run.vala:241
++msgid "Unable to extract exec from package meta data"
++msgstr ""
++
++#: dbp-cfg/main.c:32
++#, c-format
++msgid "Unable to open config file %s\n"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:31
++#, c-format
++msgid "Unable to open package %s\n"
++msgstr ""
++
++#: dbp-run/common/error.vala:22 libdbpmgr/error.c:64
++msgid ""
++"Unable to read meta-data from package. The package file is likely corrupt. "
++"Try re-downloading it."
++msgstr ""
++
++#: dbp-run/common/error.vala:17 libdbpmgr/error.c:54
++msgid ""
++"Unable to set up AuFS union. This is likely a bug. This may temporarily be "
++"worked around by rebooting."
++msgstr ""
++
++#: dbp-run/common/error.vala:43 dbp-run/common/error.vala:48
++msgid "Unknown"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:11 dbp-validate-extracted/validate.c:92
++#, c-format
++msgid "Usage:\n"
++msgstr ""
++
++#: dbp-cfg/main.c:14
++#, c-format
++msgid "Usage: %s <config key>\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:17
++#, c-format
++msgid "Usage: dbp-cmd <command> [arg]\n"
++msgstr ""
++
++#: dbp-run/dbp-run.vala:14
++#, c-format
++msgid ""
++"Usage: dbp-run [--gui-errors] [--log-output] [--chdir] <package id> "
++"<executable> [arg1] [arg2] ...\n"
++msgstr ""
++
++#: dbp-run/dbp-run-path.vala:11
++#, c-format
++msgid "Usage: dbp-run-path [--gui-errors] <path to .dbp> [arg1] [arg2] ...\n"
++msgstr ""
++
++#: dbp-validate-extracted/validate.c:89
++#, c-format
++msgid "Validates ingoing files before a DBP is created\n"
++msgstr ""
++
++#: dbp-run/common/dep-dialog.vala:50
++msgid "Version"
++msgstr ""
++
++#: dbp-run/dbp-run-path.vala:10 dbp-run/dbp-run.vala:13
++#, c-format
++msgid "Version %s\n"
++msgstr ""
++
++#: dbp-run/common/error.vala:14 libdbpmgr/error.c:48
++msgid ""
++"You've attempted to launch a program from a package that could not be found "
++"in the local database. This is likely a bug."
++msgstr ""
++
++#: dbp-run/common/error.vala:18 libdbpmgr/error.c:56
++msgid ""
++"Your user doesn't have the permissions needed to create the application data "
++"directory on the SD-card that this application is installed on."
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:13
++#, c-format
++msgid ""
++"dbp-meta get <path-to-dbp> <key> [locale]\t- Returns the value of meta-key "
++"<key>\n"
++msgstr ""
++
++#: dbp-meta/dbp-meta.c:12
++#, c-format
++msgid ""
++"dbp-meta list <path-to-dbp>\t\t\t- lists all meta keys for the package\n"
++msgstr ""
++
++#: dbp-validate-extracted/validate.c:93
++#, c-format
++msgid ""
++"dbp-validate-extracted <path to meta directory> [path to rootfs directory]\n"
++msgstr ""
++
++#: dbp-cmd/dbp-cmd.c:31
++#, c-format
++msgid "pkgid is a unique ID that every valid package has.\n"
++msgstr ""

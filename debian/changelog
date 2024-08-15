@@ -1,3 +1,10 @@
+dbp (0.6.12.1-2.1) unstable; urgency=medium
+
+  * Fix for GCC 14
+  * Update to Trixie
+
+ -- Ben Slater <catapultit@me.com>  Thu, 15 Aug 2024 18:56:34 +1000
+
 dbp (0.6.12.1-2) unstable; urgency=medium
 
   [ Steven Arnow ]
